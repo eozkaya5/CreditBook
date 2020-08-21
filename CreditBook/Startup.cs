@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CreditBook.Models.Context;
 using Identity.CustomValidations;
 using Identity.Models.Authentication;
 using Identity.Models.Context;
@@ -29,7 +30,7 @@ namespace Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LoginDbContext>(_ => _.UseSqlServer(Configuration["ConnectionString"]));
-         
+            services.AddDbContext<BookDbContext>(_ => _.UseSqlServer(Configuration["ConnectionString"]));
             services.AddIdentity<AppUser, AppRole>(_ =>
             {
                 _.Password.RequireNonAlphanumeric = false;
@@ -48,7 +49,7 @@ namespace Identity
                     SecurePolicy = CookieSecurePolicy.Always //HTTPS üzerinden eriþilebilir yapýyoruz.
                 };
                 _.SlidingExpiration = true; //Expiration süresinin yarýsý kadar süre zarfýnda istekte bulunulursa eðer geri kalan yarýsýný tekrar sýfýrlayarak ilk ayarlanan süreyi tazeleyecektir.
-                _.ExpireTimeSpan = TimeSpan.FromMinutes(10); //CookieBuilder nesnesinde tanýmlanan Expiration deðerinin varsayýlan deðerlerle ezilme ihtimaline karþýn tekrardan Cookie vadesi burada da belirtiliyor.
+                _.ExpireTimeSpan = TimeSpan.FromMinutes(15); //CookieBuilder nesnesinde tanýmlanan Expiration deðerinin varsayýlan deðerlerle ezilme ihtimaline karþýn tekrardan Cookie vadesi burada da belirtiliyor.
             });
             services.AddMvc();
         }
