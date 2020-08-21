@@ -20,6 +20,7 @@ namespace CreditBook.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.UserName = User.Identity.Name;
             return View();
         }
 
