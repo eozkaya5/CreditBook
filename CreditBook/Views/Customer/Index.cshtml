@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CreditBook.Models.BookViewModel.Customer>
+
+<h1>Müsteri Sayafası</h1>
+
+<form asp-controller="Customer" asp-action="Create" method="post">
+    <input type="hidden" name="Id" />
+    <div>
+        <label>Adı Soyadı:</label>
+        <input type="text" name="NameSurname" class="form-control" placeholder="Adı Soyadı" required />
+    </div>
+    <br />
+    <div>
+        <label>Toplam Borç:</label>
+        <input type="text" name="TotalDept" class="form-control" placeholder="Borç" required />
+    </div>
+    <br />
+    <button class="btn-group">Ekle</button>
+    <br />
+</form>
+<form asp-controller="Customer" asp-action="Index" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Müsteri Kodu</th>
+                <th>Adı Soyadı</th>
+                <th>Toplam Borç</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        <a asp-action="Index" asp-controller="Shopping" asp-route-id="@item.Id">
+                            @item.NameSurname
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalDept)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
