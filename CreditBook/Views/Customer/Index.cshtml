@@ -1,20 +1,13 @@
 ﻿@model IEnumerable<CreditBook.Models.BookViewModel.Customer>
 
 <h1>Müsteri Sayafası</h1>
-
+<br />  
 <form asp-controller="Customer" asp-action="Create" method="post">
     <input type="hidden" name="Id" />
     <div>
         <label>Adı Soyadı:</label>
-        <input type="text" name="NameSurname" class="form-control" placeholder="Adı Soyadı" required />
+        <input type="text" name="NameSurname" class="form-control" value="" required />
     </div>
-    <br />
-    <div>
-        <label>Toplam Borç:</label>
-        <input type="text" name="TotalDept" class="form-control" placeholder="Borç" required />
-    </div>
-    <br />
-    <button class="btn-group">Ekle</button>
     <br />
 </form>
 <form asp-controller="Customer" asp-action="Index" method="post">
@@ -32,7 +25,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UserId)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
                         <a asp-action="Index" asp-controller="Shopping" asp-route-id="@item.Id">
@@ -40,12 +33,12 @@
                         </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TotalDept)
+                        @Html.DisplayFor(modelItem => item.TotalDept)                     
                     </td>
-
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Sil</a> |
+                        <a asp-action="Index" asp-controller="Payment" asp-route-id="@item.Id"> Öde </a>
                     </td>
                 </tr>
             }
