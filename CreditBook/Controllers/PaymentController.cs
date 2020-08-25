@@ -26,13 +26,13 @@ namespace CreditBook.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Create(int id)
+        public IActionResult PaymentDept(int id)
         {
             var model = new Payment { CustomerId = id };
             return View(model);
         }
         [HttpPost]
-        public IActionResult Create(Payment model)
+        public IActionResult PaymentDept(Payment model)
         {
             try
             {
