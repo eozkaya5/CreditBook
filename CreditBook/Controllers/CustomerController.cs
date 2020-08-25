@@ -30,10 +30,7 @@ namespace CreditBook.Controllers
             return View(customer);
         }
 
-        public IActionResult 
-            
-            
-            ()
+        public IActionResult Create()                               
         {
             return View();
         }
