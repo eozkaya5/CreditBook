@@ -14,7 +14,7 @@ namespace CreditBook.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameSurname = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalDept = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalDept = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -28,7 +28,7 @@ namespace CreditBook.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FeePaid = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeePaid = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
@@ -50,7 +50,7 @@ namespace CreditBook.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalFee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalFee = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },

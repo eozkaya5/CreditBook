@@ -11,6 +11,7 @@ namespace CreditBook.Models.BookViewModel
         public string NameSurname { get; set; }
         public decimal TotalDept { get; set; }
         public int UserId { get; set; }
+
         public List<Payment> Payments { get; set; }
         public List<Shopping> Shoppings { get; set; }
     }
