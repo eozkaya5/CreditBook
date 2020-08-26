@@ -51,6 +51,7 @@ namespace Identity.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return RedirectToAction("Index");
