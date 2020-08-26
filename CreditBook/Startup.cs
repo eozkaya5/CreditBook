@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,13 +32,17 @@ namespace Identity
         {
             services.AddDbContext<LoginDbContext>(_ => _.UseSqlServer(Configuration["ConnectionString"]));
             services.AddDbContext<BookDbContext>(_ => _.UseSqlServer(Configuration["ConnectionString"]));
+           
             services.AddIdentity<AppUser, AppRole>(_ =>
             {
+                _.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
                 _.Password.RequireNonAlphanumeric = false;
                 _.User.AllowedUserNameCharacters = "abcçdefghiýjklmnoöpqrsþtuüvwxyzABCÇDEFGHIÝJKLMNOÖPQRSÞTUÜVWXYZ0123456789-._@+"; //Kullanýcý adýnda geçerli olan karakterleri belirtiyoruz.
-            }).AddPasswordValidator<CustomPasswordValidation>()
+            }).AddDefaultTokenProviders()
+                .AddPasswordValidator<CustomPasswordValidation>()
               .AddUserValidator<CustomUserValidation>()
               .AddErrorDescriber<CustomIdentityErrorDescriber>().AddEntityFrameworkStores<LoginDbContext>();
+           
             services.ConfigureApplicationCookie(_ =>
             {
                 _.LoginPath = new PathString("/Security/Index");
