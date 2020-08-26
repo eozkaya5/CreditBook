@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CreditBook.Controllers
 {
+ [Authorize]
     public class CustomerController : Controller
     {
         private readonly BookDbContext _context;
