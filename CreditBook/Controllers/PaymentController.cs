@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CreditBook.Controllers
 {
+ [Authorize]
     public class PaymentController : Controller
     {
         public readonly BookDbContext _context;
