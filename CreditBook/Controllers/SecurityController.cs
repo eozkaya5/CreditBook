@@ -78,7 +78,7 @@ namespace Identity.Controllers
         }
 
 
-        public IActionResult ResetPassword()
+        public IActionResult PasswordReset()
         {
             return View();
         }
@@ -88,14 +88,14 @@ namespace Identity.Controllers
             AppUser user = await _userManager.FindByEmailAsync(reset.Email);
             if (user != null)
             {
-                string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                 MailMessage mail = new MailMessage();
                 mail.IsBodyHtml = true;
                 mail.To.Add(user.Email);
                 mail.From = new MailAddress("******@gmail.com", "Şifre Güncelleme", System.Text.Encoding.UTF8);
                 mail.Subject = "Şifre Güncelleme Talebi";
-                mail.Body = $"<a target=\"_blank\" href=\"https://localhost:5001{Url.Action("UpdatePassword", "Security", new { Id = user.Id, token = HttpUtility.UrlEncode(token) })}\">Yeni şifre talebi için tıklayınız</a>";
+                mail.Body = $"<a target=\"_blank\" href=\"https://localhost:5001{Url.Action("UpdatePassword", "Security", new { Id = user.Id, token = HttpUtility.UrlEncode(resetToken) })}\">Yeni şifre talebi için tıklayınız</a>";
                 mail.IsBodyHtml = true;
                 SmtpClient smp = new SmtpClient();
                 smp.Credentials = new NetworkCredential("ozkayaelif562@gmail.com", "ozkayaelif562");
@@ -113,14 +113,14 @@ namespace Identity.Controllers
         }
 
         [HttpGet("[action]/{Id}/{token}")]
-        public IActionResult UpdatePassword(string Id, string token)
+        public IActionResult UpdatePassword()
         {
             return View();
         }
         [HttpPost("[action]/{Id}/{token}")]
-        public async Task<IActionResult> UpdatePassword(UpdatePasswordModel update, string Id, string token)
+        public async Task<IActionResult> UpdatePassword(UpdatePasswordModel update, string id, string token)
         {
-            AppUser user = await _userManager.FindByIdAsync(Id);
+            AppUser user = await _userManager.FindByIdAsync(id);
             IdentityResult result = await _userManager.ResetPasswordAsync(user, HttpUtility.UrlDecode(token), update.Password);
             if (result.Succeeded)
             {
