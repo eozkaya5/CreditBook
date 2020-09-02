@@ -25,24 +25,26 @@
             </tr>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Customer.NameSurname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.TotalFee)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.CreateDate)
-                    </td>
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@item.Id">| Sil | </a>
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Customer.NameSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.TotalFee)
+               
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CreateDate)
+            </td>
+           
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">| Sil | </a>
+            </td>
+        </tr>
             }
         </table>
     </form>
-    <input type="text" class="form-control" readonly placeholder="Toplam ücret:@ViewBag.ucrett" />
+    <input type="text" class="form-control" readonly placeholder="Toplam ücret: @Model.Sum(x=>x.TotalFee)₺" />

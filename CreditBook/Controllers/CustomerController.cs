@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CreditBook.Migrations;
 using CreditBook.Models.BookViewModel;
 using CreditBook.Models.Context;
 using Identity.Models.Authentication;
 using Identity.Models.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CreditBook.Controllers
 {
- [Authorize]
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly BookDbContext _context;
@@ -23,15 +25,16 @@ namespace CreditBook.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public IActionResult Index(int id, decimal ucrett)
         {
             ViewBag.UserName = User.Identity.Name;
             var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-            var customer = _context.Customers.Where(x => x.UserId == user.Id);
+            var customer = _context.Customers.Where(x => x.UserId == user.Id).Include(x => x.Payments).Include(x => x.Shoppings);
+            ViewBag.CustomerId = id;                  
             return View(customer);
         }
 
-        public IActionResult Create()                               
+        public IActionResult Create()
         {
             return View();
         }
@@ -52,14 +55,21 @@ namespace CreditBook.Controllers
             }
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int? id,Customer customer,decimal fee)
         {
             var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-            var delete = _context.Customers.FirstOrDefault(x => x.Id == id && x.UserId == user.Id);
+            var delete = _context.Customers.Include(x => x.Shoppings).FirstOrDefault(x => x.Id == id);
             delete.UserId = user.Id;
-            _context.Customers.Remove(delete);
-            _context.SaveChanges();
-
+            var shopping = _context.Shoppings.FirstOrDefault(x => x.CustomerId == id);
+            if (shopping.TotalFee==0)
+            {
+                _context.Customers.Remove(delete);
+                _context.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("NotUser", "Böyle bir kullanıcı bulunmamaktadır.");
+            }           
             return RedirectToAction("Index");
         }
 
@@ -76,8 +86,8 @@ namespace CreditBook.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var model = _context.Customers.FirstOrDefault(x => x.Id == id);
-                    model.NameSurname = customer.NameSurname;                    
+                    var model = _context.Customers.Include(x => x.Payments).Include(x => x.Shoppings).FirstOrDefault(x => x.Id == id);
+                    model.NameSurname = customer.NameSurname;
                     _context.SaveChanges();
                     return RedirectToAction("Index", new { id = model.UserId });
                 }

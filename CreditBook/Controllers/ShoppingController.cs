@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CreditBook.Models.BookViewModel;
 using CreditBook.Models.Context;
 using Identity.Models.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +26,7 @@ namespace CreditBook.Controllers
         {
             ViewBag.UserName = User.Identity.Name;
             List<Shopping> model = _context.Shoppings.Include(x => x.Customer).Where(x => x.CustomerId == id).ToList();
-            ViewBag.CustomerId = id;
-            var customer = _context.Customers.Find(id);
-            var shoping = _context.Shoppings.FirstOrDefault(x => x.CustomerId == customer.Id);
-            if (shoping != null)
-            {
-                ucrett = _context.Shoppings.Where(x => x.CustomerId == shoping.CustomerId).Sum(x => x.TotalFee);
-                ViewBag.ucrett = +ucrett + "₺";
-            }
+            ViewBag.CustomerId = id;     
             return View(model);
         }
         [HttpGet]
@@ -49,7 +43,7 @@ namespace CreditBook.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var payment = _context.Customers.Find(shopping.CustomerId);
+                    var payment = _context.Customers.Include(x => x.Payments).Include(x => x.Shoppings).FirstOrDefault( x=>x.Id ==shopping.CustomerId);
                     payment.TotalDept += shopping.TotalFee;
                     shopping.CreateDate = DateTime.Now;
                     _context.Shoppings.Add(shopping);

@@ -50,6 +50,4 @@
     </table>
 </form>
 
-<div>
-    <a asp-action="Index"> << Müşteri sayfasına geri dön </a>
-</div>
+<input type="text" class="form-control" readonly placeholder="Toplam ödenen ücret: @Model.Sum(x=>x.FeePaid)₺" />

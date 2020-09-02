@@ -6,22 +6,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CreditBook.Models;
+using CreditBook.Models.Context;
+using Microsoft.AspNetCore.Identity;
+using Identity.Models.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace CreditBook.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly BookDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        public HomeController(BookDbContext context, UserManager<AppUser> userManager)
         {
-            _logger = logger;
+            _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id,int ucrett)
         {
             ViewBag.UserName = User.Identity.Name;
-            return View();
+            var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+            var customer = _context.Customers.Where(x => x.UserId == user.Id).Include(x => x.Payments).Include(x => x.Shoppings);
+            ViewBag.CustomerId = id;
+
+         
+            return View(customer);
         }
 
         public IActionResult Privacy()

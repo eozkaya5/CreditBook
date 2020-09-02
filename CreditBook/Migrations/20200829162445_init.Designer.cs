@@ -4,14 +4,16 @@ using CreditBook.Models.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CreditBook.Migrations
 {
     [DbContext(typeof(BookDbContext))]
-    partial class BookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200829162445_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,12 +32,6 @@ namespace CreditBook.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalDept")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalPayment")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalShopping")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
@@ -84,9 +80,6 @@ namespace CreditBook.Migrations
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Fee")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalFee")
                         .HasColumnType("decimal(18,2)");

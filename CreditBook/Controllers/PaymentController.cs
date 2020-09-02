@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CreditBook.Models.BookViewModel;
 using CreditBook.Models.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +20,13 @@ namespace CreditBook.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index(int id,decimal ucrett)
         {
             ViewBag.UserName = User.Identity.Name;
             List<Payment> model = _context.Payments.Include(x => x.Customer).Where(x => x.CustomerId == id).ToList();
-            ViewBag.CustomerId = id;
+            ViewBag.CustomerId = id;           
             return View(model);
+           
         }
         [HttpGet]
         public IActionResult PaymentDept(int id)
@@ -39,7 +41,7 @@ namespace CreditBook.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var payment = _context.Customers.Find(model.CustomerId);
+                    var payment = _context.Customers.Include(x => x.Payments).Include(x => x.Shoppings).FirstOrDefault(x => x.Id == model.CustomerId);
                     payment.TotalDept -= model.FeePaid;
                     model.Date = DateTime.Now;
                     _context.Payments.Add(model);
