@@ -30,7 +30,7 @@ namespace CreditBook.Controllers
             ViewBag.UserName = User.Identity.Name;
             var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
             var customer = _context.Customers.Where(x => x.UserId == user.Id).Include(x => x.Payments).Include(x => x.Shoppings);
-            ViewBag.CustomerId = id;                  
+            ViewBag.CustomerId = id;
             return View(customer);
         }
 
@@ -55,21 +55,22 @@ namespace CreditBook.Controllers
             }
         }
 
-        public IActionResult Delete(int? id,Customer customer,decimal fee)
+        public IActionResult Delete(int? id, Customer customer)
         {
-            var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-            var delete = _context.Customers.Include(x => x.Shoppings).FirstOrDefault(x => x.Id == id);
-            delete.UserId = user.Id;
-            var shopping = _context.Shoppings.FirstOrDefault(x => x.CustomerId == id);
-            if (shopping.TotalFee==0)
+            try
             {
-                _context.Customers.Remove(delete);
+                var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+                var delete = _context.Customers.Include(x => x.Shoppings).FirstOrDefault(x => x.Id == id);
+                delete.UserId = user.Id;
+                var shopping = _context.Shoppings.FirstOrDefault(x => x.CustomerId == id);
+                Customer dept = _context.Customers.First(k => k.TotalDept == 0);
+                _context.Customers.Remove(dept);
                 _context.SaveChanges();
             }
-            else
+            catch (Exception)
             {
-                ModelState.AddModelError("NotUser", "Böyle bir kullanıcı bulunmamaktadır.");
-            }           
+                TempData["Message"] = "Ödenmesi gereken borç bulunmaktadır. Ödeme işlemi yaoıldıktan sonra tekrar deneyiniz.";
+            }
             return RedirectToAction("Index");
         }
 

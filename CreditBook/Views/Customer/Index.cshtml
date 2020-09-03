@@ -8,8 +8,9 @@
         <label>Adı Soyadı:</label>
         <input type="text" name="NameSurname" class="form-control" value="" required />
     </div>
-    <br />
 </form>
+<br />
+@Html.Raw(TempData["Message"])
 <form asp-controller="Customer" asp-action="Index" method="post">
     <input type="hidden" name="CustomerId" value="@ViewBag.CustomerId" />
     <table class="table">
@@ -49,8 +50,9 @@
                         <a asp-action="Index" asp-controller="Payment" asp-route-id="@item.Id"> Öde </a>
                     </td>
                 </tr>
+
             }
         </tbody>
     </table>
 </form>
-@ViewBag.Mesaj
+
