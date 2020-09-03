@@ -69,7 +69,7 @@ namespace CreditBook.Controllers
             }
             catch (Exception)
             {
-                TempData["Message"] = "Ödenmesi gereken borç bulunmaktadır. Ödeme işlemi yaoıldıktan sonra tekrar deneyiniz.";
+                TempData["Message"] = "Ödenmesi gereken borç bulunmaktadır. Ödeme işlemi yapıldıktan sonra tekrar deneyiniz.";
             }
             return RedirectToAction("Index");
         }
