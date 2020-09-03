@@ -7,8 +7,10 @@ Açılan sayfaya login için;
 " update-database -context LoginDbContext" güncelleyerek veri tabanını ekliyoruz.
 
 Versiye defteri için;
-"add-migration init -context BookDbContext" ekliyoruz. (init ismini istediğiniz gibi değiştirebilirsiniz)
-" update-database -context LoginDbContext" güncelleyerek veri tabanını ekliyoruz.
+"add-migration init -context "BookDbContext" ekliyoruz. (init ismini istediğiniz gibi değiştirebilirsiniz)
+" update-database -context "BookDbContext" güncelleyerek veri tabanını ekliyoruz.
+
+Son olarak appstring.json sayfasındaki ConnectionString 'i değiştir.
 
 Şifremi Unuttum ? için;
 Security Controller'daki 101. satırda bulunan E-mail değiştirip, https://myaccount.google.com/u/2/lesssecureapps
