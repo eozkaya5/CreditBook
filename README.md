@@ -1,3 +1,5 @@
+#CreditBook 
+
 
 Projenin çalışabilmesi için öncelikle veri tabanı ekliyoruz.
 Visual Studio programında ki menüden Tools > NuGet Package Maneger > Package Manager Console açıyoruz.
