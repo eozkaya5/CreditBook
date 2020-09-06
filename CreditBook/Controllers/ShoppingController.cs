@@ -60,9 +60,9 @@ namespace CreditBook.Controllers
 
         public IActionResult Delete(int id)
         {
-            var delete = _context.Shoppings.Find(id);
-            _context.Shoppings.Remove(delete);
-            _context.SaveChanges();
+            var delete = _context.Shoppings.Find(id);         
+                _context.Shoppings.Remove(delete);
+                _context.SaveChanges();                      
             return RedirectToAction("Index", new { id = delete.CustomerId });
         }
     }

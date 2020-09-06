@@ -12,7 +12,7 @@ namespace CreditBook.Models.BookViewModel
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public int CustomerId { get; set; }
-
+       
         public Customer Customer { get; set; }
     }
 }

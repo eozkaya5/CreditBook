@@ -100,7 +100,7 @@ namespace Identity.Controllers
                 mail.Body = $"<a target=\"_blank\" href=\"https://localhost:5001{Url.Action("UpdatePassword", "Security", new { Id = user.Id, token = HttpUtility.UrlEncode(resetToken) })}\">Yeni şifre talebi için tıklayınız</a>";
                 mail.IsBodyHtml = true;
                 SmtpClient smp = new SmtpClient();
-                smp.Credentials = new NetworkCredential("ozkayaelif562@gmail.com", "ozkayaelif562");
+                smp.Credentials = new NetworkCredential("Email", "Password");
                 smp.Port = 587;
                 smp.Host = "smtp.gmail.com";
                 smp.EnableSsl = true;

@@ -47,6 +47,18 @@ namespace CreditBook.Models.BookViewModel
                 _totalShopping = value;
             }
         }
+        private decimal _total;
+        public decimal Total
+        {
+            get
+            {
+                return Payments.Sum(x => x.Customer.TotalPayment);
+            }
+            set
+            {
+                _total = value;
+            }
+        }
 
 
         public int UserId { get; set; }

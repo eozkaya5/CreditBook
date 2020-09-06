@@ -15,7 +15,7 @@ namespace CreditBook.Controllers
 {
     public class HomeController : Controller
     {
-        
+
 
         private readonly BookDbContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -25,14 +25,21 @@ namespace CreditBook.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index(int id,int ucrett)
+        public IActionResult Index(int id, int ucrett)
         {
             ViewBag.UserName = User.Identity.Name;
             var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
             var customer = _context.Customers.Where(x => x.UserId == user.Id).Include(x => x.Payments).Include(x => x.Shoppings);
+
+            var shoping = _context.Shoppings.FirstOrDefault(x => x.CustomerId == id);
+            //if (shoping != null)
+            //{
+            //    ucrett = _context.Shoppings.Where(x => x.CustomerId == shoping.CustomerId).Sum(x => x.Tot);
+            //    ViewBag.ucrett = +ucrett + "₺";
+            //}
+
             ViewBag.CustomerId = id;
 
-         
             return View(customer);
         }
 
