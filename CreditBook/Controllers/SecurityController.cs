@@ -68,7 +68,7 @@ namespace Identity.Controllers
                     await _signInManager.SignOutAsync();
                     Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(appUser, login.Password, login.Persistent, login.Lock);
                     if (result.Succeeded)
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Customer");
                     ModelState.AddModelError("NotUser2", "E-Posta veya şifre hatalı.");
                 }
                 else
