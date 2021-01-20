@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CreditBook.Models.Context;
+using FileContextCore;
 using Identity.CustomValidations;
 using Identity.Models.Authentication;
 using Identity.Models.Context;
@@ -30,6 +31,8 @@ namespace Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           // services.AddDbContext<LoginDbContext>(options => options.UseFileContextDatabase());
+           // services.AddDbContext<BookDbContext>(options => options.UseFileContextDatabase());
             services.AddDbContext<LoginDbContext>(_ => _.UseSqlServer(Configuration["ConnectionString"]));
             services.AddDbContext<BookDbContext>(_ => _.UseSqlServer(Configuration["ConnectionString"]));
            
@@ -56,6 +59,7 @@ namespace Identity
                 _.SlidingExpiration = true; //Expiration süresinin yarýsý kadar süre zarfýnda istekte bulunulursa eðer geri kalan yarýsýný tekrar sýfýrlayarak ilk ayarlanan süreyi tazeleyecektir.
                 _.ExpireTimeSpan = TimeSpan.FromMinutes(15); //CookieBuilder nesnesinde tanýmlanan Expiration deðerinin varsayýlan deðerlerle ezilme ihtimaline karþýn tekrardan Cookie vadesi burada da belirtiliyor.
             });
+            
             services.AddMvc();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

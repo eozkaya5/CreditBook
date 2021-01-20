@@ -1,4 +1,5 @@
 ﻿using CreditBook.Models.BookViewModel;
+using FileContextCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,11 @@ namespace CreditBook.Models.Context
 {
     public class BookDbContext:DbContext
     {
-        public BookDbContext(DbContextOptions<BookDbContext>options):base(options)
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseFileContextDatabase();
+        //}
+        public BookDbContext(DbContextOptions<BookDbContext> options) : base(options)
         { }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Payment> Payments { get; set; }

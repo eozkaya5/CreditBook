@@ -1,4 +1,5 @@
-﻿using Identity.Models.Authentication;
+﻿using FileContextCore;
+using Identity.Models.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Identity.Models.Context
 {
+ 
     public class LoginDbContext:IdentityDbContext<AppUser, AppRole, int>
     {
         public LoginDbContext(DbContextOptions<LoginDbContext>options) : base(options) { }
     }
+   
 }
